@@ -2,7 +2,7 @@
   <header class="bg-white sticky top-0 z-50">
     <div class="flex justify-between items-center p-3">
       <NuxtLink to="/" aria-label="ASAP Home">
-        <img src="~/assets/images/header/logo.png" alt="ASAP Logo" class="h-20 w-auto" />
+        <img src="~/assets/images/header/logo.png" alt="ASAP Logo" class="w-auto" />
       </NuxtLink>
 
         <!-- Center: Navigation -->

@@ -1,6 +1,6 @@
 <template>
   <div class="pages-home">
-    <section class="mt-3">
+    <section>
       <div class="home1 relative flex flex-col pl-15">
         <img class="absolute home1-bg" src="~/assets/images/home/home1.png" alt="">
         <h1 class="mt-30">Apple Ads</h1>
@@ -73,7 +73,8 @@
         <img class="home5-bg absolute" src="~/assets/images/home/home5-bg.png" alt=""></img>
         <h1 class="mt-16">Success Stories</h1>
         <div class="relative">
-          <UCarousel ref="home5Carousel" loop v-slot="{ item }" :items="home5SwiperList" @select="onHome5Select" fade>
+          <UCarousel ref="home5Carousel" loop v-slot="{ item }" :items="home5SwiperList" @select="onHome5Select"
+                     :autoplay="{ delay: 7000 }" fade>
             <div :key="item.id">
               <img class="h5-bg" :src="item.bg" alt="">
               <div class="absolute h5-img-box" :key="item.id">
@@ -180,7 +181,6 @@ const home4Index = ref(Math.floor(home4Icons.value.length / 2))
 
 function clickHomeItem(index: number) {
   if(home4Index.value === index) return
-  console.log(index)
   const homeTrack = document.querySelector('.home4-track')
   if(home4Index.value < index) {
     if(index === 1) {
@@ -197,22 +197,39 @@ function clickHomeItem(index: number) {
   home4Index.value = index
 }
 let iconIndex = 1
+let iconGroup = 1 // 最大为4 每个代表三组icon
 function prevHomeItem() {
-  iconIndex--
-  console.log(iconIndex)
-  if(home4Index.value === 0) return
-  home4Index.value--
+
   const homeTrack = document.querySelector('.home4-track')
+  if(home4Index.value === 0) {
+
+    if(iconGroup > 0) {
+      iconGroup--
+      if(iconGroup === 0) return iconGroup = 1
+      home4Icons.value = home4AllIcons.value.slice((iconGroup-1)*3, (iconGroup-1)*3 + 3)
+      home4Index.value = 1
+      homeTrack!!.style.transform = `translateX(0)`
+    }
+    return
+  }
+  home4Index.value--
+
   if(home4Index.value === 1) homeTrack!!.style.transform = `translateX(0)`
   else homeTrack!!.style.transform = `translateX(280px)`
   homeTrack!!.style.transition = `transform 0.3s ease-in-out`
 }
 function nextHomeItem() {
-  iconIndex++
-  console.log(iconIndex)
-  if(home4Index.value === 2) return
-  home4Index.value++
   const homeTrack = document.querySelector('.home4-track')
+  if(home4Index.value === 2) {
+    if(iconGroup < 4) {
+      home4Icons.value = home4AllIcons.value.slice(iconGroup*3, iconGroup*3 + 3)
+      home4Index.value = 1
+      homeTrack!!.style.transform = `translateX(0)`
+      iconGroup++
+    }
+    return
+  }
+  home4Index.value++
   if(home4Index.value === 2) homeTrack!!.style.transform = `translateX(-280px)`
   else homeTrack!!.style.transform = `translateX(0)`
   homeTrack!!.style.transition = `transform 0.3s ease-in-out`
