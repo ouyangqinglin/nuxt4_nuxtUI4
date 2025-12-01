@@ -40,18 +40,19 @@
         <!-- Centered icon stage with left/right buttons -->
         <div class="home4-carousel">
 
-          <button class="home4-arrow left" type="button" @click="prevHome4" aria-label="prev">
+          <button class="home4-arrow relative left" type="button" @click="prevHomeItem">
             <img src="~/assets/images/home/home4-left-btn.png" alt="prev">
+            <img src="~/assets/images/home/home4-left-arrow.png" class="absolute" alt="">
           </button>
 
-          <div class="home4-stage" ref="stageRef">
-            <div class="home4-track" ref="trackRef">
+          <div class="home4-stage" >
+            <div class="home4-track">
               <div
                   class="home4-item"
                   v-for="(icon, i) in home4Icons"
                   :key="i"
+                  @click="clickHomeItem(i)"
                   :class="{ active: i === home4Index }"
-                  @click="selectHome4(i)"
               >
                 <img :src="icon" alt="client icon">
               </div>
@@ -60,8 +61,9 @@
             <div class="home4-label">Lifestyle</div>
           </div>
 
-          <button class="home4-arrow right" type="button" @click="nextHome4" aria-label="next">
+          <button class="home4-arrow relative right" type="button" @click="nextHomeItem">
             <img src="~/assets/images/home/home4-right-btn.png" alt="next">
+            <img src="~/assets/images/home/home4-right-arrow.png" class="absolute" alt="">
           </button>
 
         </div>
@@ -108,85 +110,44 @@ const homeThreeList = ref([
 ])
 
 const home4Icons = ref([home4Icon1, home4Icon2, home4Icon3])
-const home4Index = ref(0)
+// 默认选中中间的 icon
+const home4Index = ref(Math.floor(home4Icons.value.length / 2))
 
-// DOM refs for centering
-const stageRef = ref<HTMLElement | null>(null)
-const trackRef = ref<HTMLElement | null>(null)
-
-function prevHome4() {
-  home4Index.value = (home4Index.value - 1 + home4Icons.value.length) % home4Icons.value.length
-  const home4TrackDom = document.querySelector('.home4-track')
+function clickHomeItem(index: number) {
+  if(home4Index.value === index) return
+  console.log(index)
+  const homeTrack = document.querySelector('.home4-track')
+  if(home4Index.value < index) {
+    if(index === 1) {
+      homeTrack.style.transform = `translateX(0)`
+    } else {
+      homeTrack.style.transform = `translateX(-280px)`
+    }
+      homeTrack.style.transition = `transform 0.3s ease-in-out`
+    } else {
+      if(index === 1) homeTrack.style.transform = `translateX(0)`
+      else homeTrack.style.transform = `translateX(280px)`
+      homeTrack.style.transition = `transform 0.3s ease-in-out`
+    }
+  home4Index.value = index
 }
-function nextHome4() {
-  home4Index.value = (home4Index.value + 1) % home4Icons.value.length
+function prevHomeItem() {
+  if(home4Index.value === 0) return
+  home4Index.value--
+  const homeTrack = document.querySelector('.home4-track')
+  if(home4Index.value === 1) homeTrack.style.transform = `translateX(0)`
+  else homeTrack.style.transform = `translateX(280px)`
+  homeTrack.style.transition = `transform 0.3s ease-in-out`
 }
-
-function selectHome4(i: number) {
-  home4Index.value = i
-}
-
-let resizeObserver: ResizeObserver | null = null
-
-async function updateTrackPosition() {
-  await nextTick()
-  const stage = stageRef.value
-  const track = trackRef.value
-  if (!stage || !track) return
-
-  const stageRect = stage.getBoundingClientRect()
-  const trackRect = track.getBoundingClientRect()
-  const items = Array.from(track.querySelectorAll('.home4-item')) as HTMLElement[]
-
-  if (!items.length) return
-
-  const activeIndex = Math.min(Math.max(0, home4Index.value), items.length - 1)
-
-  const itemRect = items[activeIndex].getBoundingClientRect()
-
-  if (trackRect.width <= stageRect.width) {
-    const stageCenter = stageRect.left + stageRect.width / 2
-    const trackCenter = trackRect.left + trackRect.width / 2
-    const translate = stageCenter - trackCenter
-    track.style.transform = `translateX(${translate}px)`
-    return
-  }
-
-  // Normal case: translate so active item center == stage center
-  const stageCenter = stageRect.left + stageRect.width / 2
-  const itemCenter = itemRect.left + itemRect.width / 2
-  let translate = stageCenter - itemCenter
-
-  // Bounds: ensure no blank spaces left/right
-  const maxTranslate = stageRect.left - trackRect.left // track left aligns with stage left
-  const minTranslate = (stageRect.left + stageRect.width) - (trackRect.left + trackRect.width) // track right aligns with stage right (negative)
-  if (translate > maxTranslate) translate = maxTranslate
-  if (translate < minTranslate) translate = minTranslate
-
-  track.style.transform = `translateX(${translate}px)`
+function nextHomeItem() {
+  if(home4Index.value === 2) return
+  home4Index.value++
+  const homeTrack = document.querySelector('.home4-track')
+  if(home4Index.value === 2) homeTrack.style.transform = `translateX(-280px)`
+  else homeTrack.style.transform = `translateX(0)`
+  homeTrack.style.transition = `transform 0.3s ease-in-out`
 }
 
-onMounted(() => {
-  updateTrackPosition()
-  window.addEventListener('resize', updateTrackPosition)
-  if (typeof ResizeObserver !== 'undefined') {
-    resizeObserver = new ResizeObserver(updateTrackPosition)
-    if (stageRef.value) resizeObserver.observe(stageRef.value)
-    if (trackRef.value) resizeObserver.observe(trackRef.value)
-  }
-})
-
-watch([home4Index, home4Icons], () => {
-  updateTrackPosition()
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', updateTrackPosition)
-  if (resizeObserver) {
-    resizeObserver.disconnect()
-    resizeObserver = null
-  }
-})
 
 </script>
 
@@ -236,7 +197,7 @@ onBeforeUnmount(() => {
   .home4-arrow {
     background: transparent;
     border: none;
-    padding: 0 18px;
+    padding: 0 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -246,20 +207,23 @@ onBeforeUnmount(() => {
 
   .home4-stage {
     position: relative;
-    width: 920px;
+    width: 1000px;
     height: 360px;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden; /* 隐藏溢出的内容 */
   }
 
   .home4-track {
+    overflow: hidden;
     display: flex;
+    padding: 0 20px;
+    width: 1000px;
+    height: 360px;
     align-items: center;
-    gap: 80px;
-    transition: transform 360ms cubic-bezier(.2,.8,.2,1);
-    will-change: transform;
-    /* 初始 transform 由 JS 计算 */
+    justify-content: center;
+    gap: 60px;
   }
 
   /* icon item baseline + inactive state */
@@ -272,14 +236,13 @@ onBeforeUnmount(() => {
     transition: transform 320ms ease, opacity 320ms ease;
     opacity: 0.45;
     transform: scale(0.8) translateY(-80px);
-    //img { width: 100%; height: 100%; object-fit: contain; }
     cursor: pointer;
   }
 
   /* active center icon look */
   .home4-item.active {
     opacity: 1;
-    transform: scale(1.25) translateY(0);
+    transform: scale(1.2) translateY(10px);
     filter: drop-shadow(0 18px 30px rgba(0,0,0,0.25));
   }
 
