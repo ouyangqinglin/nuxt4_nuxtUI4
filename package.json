@@ -1,0 +1,19 @@
+{
+  "name": "nuxt-demo",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^4.2.1",
+    "nuxt": "^4.2.1"
+  },
+  "devDependencies": {
+    "sass": "^1.94.2"
+  }
+}
