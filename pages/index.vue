@@ -144,7 +144,6 @@ async function updateTrackPosition() {
 
   const itemRect = items[activeIndex].getBoundingClientRect()
 
-  // If the entire track is narrower than the stage, center the whole track
   if (trackRect.width <= stageRect.width) {
     const stageCenter = stageRect.left + stageRect.width / 2
     const trackCenter = trackRect.left + trackRect.width / 2
