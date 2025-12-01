@@ -53,7 +53,7 @@
                   @click="clickHomeItem(i)"
                   :class="{ active: i === home4Index }"
               >
-                <img :src="icon" alt="client icon">
+                <img :src="icon" alt="client icon" style="flex-shrink: 0">
               </div>
             </div>
 
@@ -73,19 +73,28 @@
         <img class="home5-bg absolute" src="~/assets/images/home/home5-bg.png" alt=""></img>
         <h1 class="mt-16">Success Stories</h1>
         <div class="relative">
-          <UCarousel loop v-slot="{ item }" :items="home5SwiperList" fade dots arrows
-          >
-            <div>
+          <UCarousel ref="home5Carousel" loop v-slot="{ item }" :items="home5SwiperList" @select="onHome5Select" fade>
+            <div :key="item.id">
               <img class="h5-bg" :src="item.bg" alt="">
-              <div class="absolute h5-img-box">
+              <div class="absolute h5-img-box" :key="item.id">
                 <img :src="item.img" class="absolute h5-img" alt="">
               </div>
             </div>
           </UCarousel>
+
+          <!-- 自定义 dots（隐藏默认 dots） -->
+          <div class="home5-dots" aria-hidden="false">
+            <button
+                v-for="(_, idx) in home5SwiperList"
+                :key="idx"
+                :class="['home5-dot', { active: idx === home5Index }]"
+                @click="goHome5(idx)"
+                :aria-label="`Go to slide ${idx + 1}`"
+            ></button>
+          </div>
         </div>
       </div>
     </section>
-    <div style="height: 300px"></div>
   </div>
 </template>
 
@@ -99,12 +108,23 @@ import home33 from '~/assets/images/home/home3-3.png'
 import home4Icon1 from '~/assets/images/home/home4-icon1.png'
 import home4Icon2 from '~/assets/images/home/home4-icon2.png'
 import home4Icon3 from '~/assets/images/home/home4-icon3.png'
+import home4Icon4 from '~/assets/images/home/home4-icon4.png'
+import home4Icon5 from '~/assets/images/home/home4-icon5.png'
+import home4Icon6 from '~/assets/images/home/home4-icon6.png'
+import home4Icon7 from '~/assets/images/home/home4-icon7.png'
+import home4Icon8 from '~/assets/images/home/home4-icon8.png'
+import home4Icon9 from '~/assets/images/home/home4-icon9.png'
+import home4Icon10 from '~/assets/images/home/home4-icon10.png'
+import home4Icon11 from '~/assets/images/home/home4-icon11.png'
+import home4Icon12 from '~/assets/images/home/home4-icon12.png'
 import h5SwiperBg1 from '~/assets/images/home/h5-swiper-bg1.png'
 import h5SwiperImg1 from '~/assets/images/home/h5-swiper-img1.png'
 import h5SwiperBg2 from '~/assets/images/home/h5-swiper-bg2.png'
 import h5SwiperImg2 from '~/assets/images/home/h5-swiper-img2.png'
 import h5SwiperBg3 from '~/assets/images/home/h5-swiper-bg3.png'
 import h5SwiperImg3 from '~/assets/images/home/h5-swiper-img3.png'
+import h5SwiperBg4 from '~/assets/images/home/h5-swiper-bg4.png'
+import h5SwiperImg4 from '~/assets/images/home/h5-swiper-img4.png'
 
 const chooseItem = ref([
   choose1,
@@ -114,16 +134,24 @@ const chooseItem = ref([
 
 const home5SwiperList = ref([
   {
+    id: 1,
     bg: h5SwiperBg1,
     img: h5SwiperImg1
   },
   {
+    id: 2,
     bg: h5SwiperBg2,
     img: h5SwiperImg2
   },
   {
+    id: 3,
     bg: h5SwiperBg3,
     img: h5SwiperImg3
+  },
+  {
+    id: 4,
+    bg: h5SwiperBg4,
+    img: h5SwiperImg4
   }
 ])
 
@@ -145,6 +173,7 @@ const homeThreeList = ref([
   },
 ])
 
+const home4AllIcons = ref([home4Icon1, home4Icon2, home4Icon3, home4Icon4, home4Icon5, home4Icon6, home4Icon7, home4Icon8, home4Icon9, home4Icon10, home4Icon11, home4Icon12])
 const home4Icons = ref([home4Icon1, home4Icon2, home4Icon3])
 // 默认选中中间的 icon
 const home4Index = ref(Math.floor(home4Icons.value.length / 2))
@@ -167,7 +196,10 @@ function clickHomeItem(index: number) {
     }
   home4Index.value = index
 }
+let iconIndex = 1
 function prevHomeItem() {
+  iconIndex--
+  console.log(iconIndex)
   if(home4Index.value === 0) return
   home4Index.value--
   const homeTrack = document.querySelector('.home4-track')
@@ -176,12 +208,48 @@ function prevHomeItem() {
   homeTrack!!.style.transition = `transform 0.3s ease-in-out`
 }
 function nextHomeItem() {
+  iconIndex++
+  console.log(iconIndex)
   if(home4Index.value === 2) return
   home4Index.value++
   const homeTrack = document.querySelector('.home4-track')
   if(home4Index.value === 2) homeTrack!!.style.transform = `translateX(-280px)`
   else homeTrack!!.style.transform = `translateX(0)`
   homeTrack!!.style.transition = `transform 0.3s ease-in-out`
+}
+
+
+const home5Carousel = useTemplateRef('home5Carousel') // template ref to UCarousel instance
+const home5Index = ref(0)
+
+// 当 UCarousel 触发 select 事件时（它会 emit select(selectedIndex)）
+function onHome5Select(index: number) {
+  home5Index.value = index
+}
+
+// programmatically scroll carousel to index using exposed emblaApi
+function goHome5(index: number) {
+  home5Carousel.value?.emblaApi?.scrollTo(index)
+  home5Index.value = index
+
+  // const comp = home5Carousel.value
+  // if (!comp) {
+  //   home5Index.value = index
+  //   return
+  // }
+  //
+  // // emblaApi 在组件实例上以 emblaApi 这个 ref 暴露（@nuxt/ui 的 Carousel 实现）
+  // try {
+  //   const emblaRef = comp?.emblaApi
+  //   if (emblaRef && emblaRef.value && typeof emblaRef.value.scrollTo === 'function') {
+  //     emblaRef.value.scrollTo(index)
+  //   } else {
+  //     // fallback: update index (visual sync)
+  //     home5Index.value = index
+  //   }
+  // } catch (e) {
+  //   home5Index.value = index
+  // }
 }
 
 
@@ -447,5 +515,54 @@ function nextHomeItem() {
     height: auto;
     object-fit: cover;
   }
+
+  /* 隐藏默认 UCarousel dots（保险） */
+  .home5 [data-slot="dots"] {
+    display: none !important;
+  }
+
+  /* 自定义 dots 容器（居中） */
+  .home5-dots {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 6px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    z-index: 90;
+    pointer-events: auto;
+  }
+
+  /* 小圆点基态 */
+  .home5-dot {
+    width: 60px;
+    height: 8px;
+    background: rgba(255,255,255);
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 260ms cubic-bezier(.2,.8,.2,1);
+    cursor: pointer;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  /* 活跃的 pill 样式（类似你贴图的中间长条 + 渐变 + 阴影） */
+  .home5-dot.active {
+    width: 60px;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ffd84a 0%, #00e0ff 100%);
+    box-shadow: 0 10px 28px rgba(0,160,255,0.18), 0 4px 10px rgba(0,0,0,0.25);
+  }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    .home5-dots { bottom: 18px; }
+    .home5-dot { width: 10px; height: 10px; }
+    .home5-dot.active { width: 44px; height: 8px; }
+  }
+
 }
 </style>
