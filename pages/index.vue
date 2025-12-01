@@ -34,14 +34,13 @@
     <section class="mt-16">
       <div class="home4 relative flex flex-col justify-center">
         <img class="absolute home4-bg" src="~/assets/images/home/home4-bg.png" alt="">
-        <img class="absolute home4-title mt-20" src="~/assets/images/home/home4-title.png" alt="">
-
+        <img class="absolute home4-title mt-40" src="~/assets/images/home/home4-title.png" alt="">
 
         <!-- Centered icon stage with left/right buttons -->
         <div class="home4-carousel">
 
           <button class="home4-arrow relative left" type="button" @click="prevHomeItem">
-            <img src="~/assets/images/home/home4-left-btn.png" alt="prev">
+            <img src="~/assets/images/home/home4-left-btn.png" class="home4-btn" alt="prev">
             <img src="~/assets/images/home/home4-left-arrow.png" class="absolute" alt="">
           </button>
 
@@ -62,15 +61,31 @@
           </div>
 
           <button class="home4-arrow relative right" type="button" @click="nextHomeItem">
-            <img src="~/assets/images/home/home4-right-btn.png" alt="next">
+            <img src="~/assets/images/home/home4-right-btn.png" class="home4-btn" alt="next">
             <img src="~/assets/images/home/home4-right-arrow.png" class="absolute" alt="">
           </button>
 
         </div>
-
-
       </div>
     </section>
+    <section style="margin-top: -110px">
+      <div class="home5 relative flex flex-col items-center">
+        <img class="home5-bg absolute" src="~/assets/images/home/home5-bg.png" alt=""></img>
+        <h1 class="mt-16">Success Stories</h1>
+        <div class="relative">
+          <UCarousel loop v-slot="{ item }" :items="home5SwiperList" fade dots arrows
+          >
+            <div>
+              <img class="h5-bg" :src="item.bg" alt="">
+              <div class="absolute h5-img-box">
+                <img :src="item.img" class="absolute h5-img" alt="">
+              </div>
+            </div>
+          </UCarousel>
+        </div>
+      </div>
+    </section>
+    <div style="height: 300px"></div>
   </div>
 </template>
 
@@ -84,11 +99,32 @@ import home33 from '~/assets/images/home/home3-3.png'
 import home4Icon1 from '~/assets/images/home/home4-icon1.png'
 import home4Icon2 from '~/assets/images/home/home4-icon2.png'
 import home4Icon3 from '~/assets/images/home/home4-icon3.png'
+import h5SwiperBg1 from '~/assets/images/home/h5-swiper-bg1.png'
+import h5SwiperImg1 from '~/assets/images/home/h5-swiper-img1.png'
+import h5SwiperBg2 from '~/assets/images/home/h5-swiper-bg2.png'
+import h5SwiperImg2 from '~/assets/images/home/h5-swiper-img2.png'
+import h5SwiperBg3 from '~/assets/images/home/h5-swiper-bg3.png'
+import h5SwiperImg3 from '~/assets/images/home/h5-swiper-img3.png'
 
 const chooseItem = ref([
   choose1,
   choose2,
   choose3
+])
+
+const home5SwiperList = ref([
+  {
+    bg: h5SwiperBg1,
+    img: h5SwiperImg1
+  },
+  {
+    bg: h5SwiperBg2,
+    img: h5SwiperImg2
+  },
+  {
+    bg: h5SwiperBg3,
+    img: h5SwiperImg3
+  }
 ])
 
 const homeThreeList = ref([
@@ -119,15 +155,15 @@ function clickHomeItem(index: number) {
   const homeTrack = document.querySelector('.home4-track')
   if(home4Index.value < index) {
     if(index === 1) {
-      homeTrack.style.transform = `translateX(0)`
+      homeTrack!!.style.transform = `translateX(0)`
     } else {
-      homeTrack.style.transform = `translateX(-280px)`
+      homeTrack!!.style.transform = `translateX(-280px)`
     }
-      homeTrack.style.transition = `transform 0.3s ease-in-out`
+      homeTrack!!.style.transition = `transform 0.3s ease-in-out`
     } else {
-      if(index === 1) homeTrack.style.transform = `translateX(0)`
-      else homeTrack.style.transform = `translateX(280px)`
-      homeTrack.style.transition = `transform 0.3s ease-in-out`
+      if(index === 1) homeTrack!!.style.transform = `translateX(0)`
+      else homeTrack!!.style.transform = `translateX(280px)`
+      homeTrack!!.style.transition = `transform 0.3s ease-in-out`
     }
   home4Index.value = index
 }
@@ -135,17 +171,17 @@ function prevHomeItem() {
   if(home4Index.value === 0) return
   home4Index.value--
   const homeTrack = document.querySelector('.home4-track')
-  if(home4Index.value === 1) homeTrack.style.transform = `translateX(0)`
-  else homeTrack.style.transform = `translateX(280px)`
-  homeTrack.style.transition = `transform 0.3s ease-in-out`
+  if(home4Index.value === 1) homeTrack!!.style.transform = `translateX(0)`
+  else homeTrack!!.style.transform = `translateX(280px)`
+  homeTrack!!.style.transition = `transform 0.3s ease-in-out`
 }
 function nextHomeItem() {
   if(home4Index.value === 2) return
   home4Index.value++
   const homeTrack = document.querySelector('.home4-track')
-  if(home4Index.value === 2) homeTrack.style.transform = `translateX(-280px)`
-  else homeTrack.style.transform = `translateX(0)`
-  homeTrack.style.transition = `transform 0.3s ease-in-out`
+  if(home4Index.value === 2) homeTrack!!.style.transform = `translateX(-280px)`
+  else homeTrack!!.style.transform = `translateX(0)`
+  homeTrack!!.style.transition = `transform 0.3s ease-in-out`
 }
 
 
@@ -166,6 +202,36 @@ function nextHomeItem() {
       width: 357px;
       object-fit: contain;
     }
+  }
+  .home5 {
+    height: 1080px;
+    .home5-bg {
+      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .h5-bg {
+      width: 100%;
+    }
+    .h5-img-box {
+      //border: 1px solid red;
+      top: 50%;
+      left: 5%;
+      transform: translateY(-50%);
+      width: 40%;
+      height: 443px;
+      .h5-img {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: auto;
+        height: 443px;
+        object-fit: contain;
+      }
+    }
+
   }
   .home4 {
     height: 1185px;
@@ -202,13 +268,98 @@ function nextHomeItem() {
     display: flex;
     align-items: center;
     justify-content: center;
-    img { width: 64px; height: 64px; }
+    position: relative;
+    transition: transform 0.3s ease;
+    
+    //img {
+    //  width: 64px;
+    //  height: 64px;
+    //  transition: transform 0.3s ease, opacity 0.3s ease;
+    //}
+    
+    // 右箭头悬停动画
+    &.right {
+      &:hover {
+        transform: translateX(5px);
+        
+        img.absolute {
+          transform: translateX(8px);
+        }
+      }
+      
+      &:active {
+        transform: translateX(2px) scale(0.95);
+        
+        img.absolute {
+          transform: translateX(12px) scale(1.1);
+        }
+      }
+      
+      // 箭头持续的小幅摆动动画
+      img.absolute {
+        animation: arrowPulse 2s ease-in-out infinite;
+      }
+    }
+    
+    // 左箭头悬停动画
+    &.left {
+      &:hover {
+        transform: translateX(-5px);
+        
+        img.absolute {
+          transform: translateX(-8px);
+        }
+      }
+      
+      &:active {
+        transform: translateX(-2px) scale(0.95);
+        
+        img.absolute {
+          transform: translateX(-12px) scale(1.1);
+        }
+      }
+      
+      // 箭头持续的小幅摆动动画
+      img.absolute {
+        animation: arrowPulse 2s ease-in-out infinite;
+      }
+    }
+  }
+  
+  // 右箭头脉冲动画
+  @keyframes arrowPulse {
+    0%, 100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateX(4px);
+      opacity: 0.8;
+    }
+  }
+  
+  // 左箭头脉冲动画（反向）
+  @keyframes arrowPulseLeft {
+    0%, 100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateX(-4px);
+      opacity: 0.8;
+    }
+  }
+  
+  // 左箭头使用反向动画
+  .home4-arrow.left img.absolute {
+    animation: arrowPulseLeft 2s ease-in-out infinite;
   }
 
   .home4-stage {
+    margin-top: 140px;
     position: relative;
-    width: 1000px;
-    height: 360px;
+    width: 800px;
+    height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -218,23 +369,23 @@ function nextHomeItem() {
   .home4-track {
     overflow: hidden;
     display: flex;
-    padding: 0 20px;
-    width: 1000px;
+    padding: 0 12px;
+    width: 800px;
     height: 360px;
     align-items: center;
     justify-content: center;
-    gap: 60px;
   }
 
   /* icon item baseline + inactive state */
   .home4-item {
+    margin: 0 20px;
     width: 220px;
     height: 220px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: transform 320ms ease, opacity 320ms ease;
-    opacity: 0.45;
+    opacity: 0.8;
     transform: scale(0.8) translateY(-80px);
     cursor: pointer;
   }
@@ -248,7 +399,7 @@ function nextHomeItem() {
 
   .home4-label {
     position: absolute;
-    bottom: -40px;
+    bottom: 0px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 28px;
