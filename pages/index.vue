@@ -9,8 +9,9 @@
         <h3 class="mt-4">Our proprietary AsAP platform provides one-stop,<br />
           high-performance, and intelligent campaign management.
         </h3>
-        <span class="mt-4" style="color: #777">91 Countries & Regions I 3,000+Apps Served I $80M+Annual Ad Spend I Global Reach</span>
+        <span class="mt-4" style="color: #333">91 Countries & Regions I 3,000+Apps Served I $80M+Annual Ad Spend I Global Reach</span>
         <img class="home1-bg-child1 mt-15" src="~/assets/images/home/home1-child1.png" alt="">
+        <h4 class="mt-8">Apple Ads Official Partner</h4>
       </div>
     </section>
     <h1 class="text-center py-10">Why Choose Us?</h1>
@@ -507,12 +508,16 @@ function goHome5(index: number) {
   }
   h1 {
     font-size: 56px;
+    font-weight: 700;
   }
   h2 {
     font-size: 30px;
   }
   h3 {
     font-size: 24px;
+  }
+  h4 {
+    font-size: 20px;
   }
 
   [data-slot="viewport"] {
@@ -530,7 +535,7 @@ function goHome5(index: number) {
     display: block;
     width: 100%;
     height: auto;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   /* 隐藏默认 UCarousel dots（保险） */

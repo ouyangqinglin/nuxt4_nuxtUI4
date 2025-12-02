@@ -43,7 +43,7 @@
       height: 953px;
       top: -10px;
       left: 0;
-      object-fit: contain;
+      width: 100%;
       z-index: -1;
     }
     .img-box {
@@ -76,6 +76,8 @@
   .product-two {
     padding-top: 40px;
     &-bg {
+      width: 100%;
+      height: 100%;
       z-index: -1;
     }
   }
@@ -84,6 +86,7 @@
   }
   h1 {
     font-size: 56px;
+    font-weight: 700;
   }
   h2 {
     font-size: 30px;

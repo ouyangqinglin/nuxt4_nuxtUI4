@@ -18,6 +18,17 @@ export default defineNuxtConfig({
               lang: 'en',
           },
       }
+    },
+    vite: {
+        server: {
+            proxy: {
+                '/api': {
+                    target: 'https://test.asa.hljyer.com',
+                    changeOrigin: true,
+                    secure: false
+                }
+            }
+        }
     }
 })
 

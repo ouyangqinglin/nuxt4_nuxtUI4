@@ -17,7 +17,7 @@
                      highlightColor="error"
                      :ui="{
                       item: 'px-20',
-                      link: 'text-lg'
+                      link: 'text-2xl'
                      }"
     />
     <template #right>
@@ -43,7 +43,7 @@ const navLinks = computed<NavigationMenuItem[]>(() =>  [
 <style lang="scss">
 .customer-nav {
   a::after {
-    height: 2px; /* Set your desired height */
+    height: 3px; /* Set your desired height */
   }
 }
 

@@ -3,13 +3,13 @@
     <img class="absolute pages-contact-bg" src="~/assets/images/contact/bg.png" alt="">
     <h1 class="mt-40">Growth,<br />
       Driven by Technology.</h1>
-    <h2 class="mt-8">Henrijayer is a world-leading expert in mobile <br />
-      marketing technology.</h2>
-    <h2 class="mt-8">
+    <h3 class="mt-8">Henrijayer is a world-leading expert in mobile <br />
+      marketing technology.</h3>
+    <h3 class="mt-8">
       We believe that in the complex ios ecosystem, the key to<br />
       unlocking sustainable growth for advertisers is the perfect<br />
  synergy of intelligent technology and human expertise.
-    </h2>
+    </h3>
     <div class="form-container px-20 py-12 flex flex-col items-center justify-center">
       <h2>Contact Form</h2>
       <UForm class="mt-6" :state="state" :validate="validate" @submit="onSubmit" @error="onError" style="width: 680px">
@@ -20,48 +20,66 @@
           <UInput style="width: 680px" v-model.trim="state.company" placeholder="Company" />
         </UFormField>
         <UFormField class="mt-6" label="" name="email" size="xl">
-          <UInput style="width: 680px" v-model.trim="state.email" placeholder="Email" />
+          <UInput style="width: 680px" v-model.trim="state.email" placeholder="Work Email" />
       </UFormField>
-        <UFormField class="mt-6" label="" name="businessNeeds" size="xl">
-          <UTextarea style="width: 680px" v-model.trim="state.businessNeeds"
+        <UFormField class="mt-6" label="" name="message" size="xl">
+          <UTextarea style="width: 680px" v-model.trim="state.message"
                      placeholder="Business Needs: Product ID / Industry / Target Countries / How can we help (Market insights, Keyword expansion, Campaign strategy)"
           />
         </UFormField>
         <div class="flex justify-center">
-          <UButton type="submit" class="mt-6 px-10 py-2" style="background: linear-gradient(to right, #1A8DFA, #4B36FF)">
+          <UButton type="submit" class="mt-8 px-14 py-3 cursor-pointer" style="background: linear-gradient(to right, #1A8DFA, #4B36FF)" loading-auto>
             Submit
           </UButton>
         </div>
       </UForm>
-      <h3 class="mt-6">Contact Email:globalbusiness@hljyer.com</h3>
+      <h3 class="mt-12"><strong>Contact Email:globalbusiness@hljyer.com</strong></h3>
     </div>
  </div>
 </template>
 
 <script setup lang="ts">
+import { md5 } from "js-md5";
 import type {FormError, FormErrorEvent, FormSubmitEvent } from '@nuxt/ui'
 const state = reactive({
   name: undefined,
   company: undefined,
   email: undefined,
-  businessNeeds: undefined
+  message: undefined
 })
 
 type Schema = typeof state
 
 function validate(state: Partial<Schema>): FormError[] {
   const errors= []
-  if (!state.name) errors.push({ name: 'name', message: 'Required' })
-  if (!state.company) errors.push({ name: 'company', message: 'Required' })
-  if (!state.email) errors.push({ name:'email', message: 'Required' })
-  if (!state.businessNeeds) errors.push({ name: 'businessNeeds', message: 'Required' })
+  if (!state.name) errors.push({ name: 'name', message: 'Please input name' })
+  if (!state.company) errors.push({ name: 'company', message: 'Please input company' })
+  if (!state.email) errors.push({ name:'email', message: 'Please input email' })
+  if (!state.message) errors.push({ name: 'message', message: 'Please input business Needs' })
   return errors
 }
 
 const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({ title: 'Success',description:'The form has been submitted.', color: 'success'})
-  console.log(event.data)
+  const url = '/api/v1/common/contact-form'
+  const data = await $fetch(url, {
+    method: 'POST',
+    body: {
+      data: event.data,
+      timestamp: +(new Date().getTime() / 1000).toFixed(0),
+      nonce: "5bf61e5d142cb77a79c37634e0494306",
+      sign: md5(JSON.stringify(event.data) + (new Date().getTime() / 1000).toFixed(0) + '5bf61e5d142cb77a79c37634e0494306' + 'v0Wxg11Jl6hH2qxLf8') // 这个sign是用md5加密的，加密规则 md5(JSON.stringify(data) + timestamp + nonce + 'v0Wxg11Jl6hH2qxLf8')
+    }
+  })
+  console.log('data', data)
+  if(+data.code === 200) {
+    toast.add({ title: 'Success',description:'The form has been submitted.', color: 'success'})
+    Object.entries(state).keys().forEach(key => {
+      state[key] = undefined
+    })
+
+  }
+  else toast.add({ title: 'Error',description: data.message, color: 'error'})
 }
 
 async function onError(event: FormErrorEvent) {
@@ -78,10 +96,12 @@ async function onError(event: FormErrorEvent) {
   &-bg {
     top: 0;
     left: 0;
+    width: 100%;
     z-index: -1;
   }
   h1 {
     font-size: 56px;
+    font-weight: 700;
  }
  h2 {
     font-size: 30px;
