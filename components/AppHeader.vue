@@ -16,8 +16,8 @@
                      highlight
                      highlightColor="error"
                      :ui="{
-      item: 'px-20',
-      link: 'text-lg'
+                      item: 'px-20',
+                      link: 'text-lg'
                      }"
     />
     <template #right>
