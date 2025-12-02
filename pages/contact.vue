@@ -21,7 +21,7 @@
         <UInput v-model.trim="state.email" />
       </UFormField>
       <UFormField label="Business Needs" name="businessNeeds">
-        <UInput v-model.trim="state.businessNeeds" />
+        <UTextarea v-model.trim="state.businessNeeds" />
       </UFormField>
       <UButton type="submit">
         Submit

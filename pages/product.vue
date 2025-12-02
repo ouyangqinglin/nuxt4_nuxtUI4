@@ -41,7 +41,7 @@
     height: 953px;
     &-bg {
       height: 953px;
-      top: 0;
+      top: -10px;
       left: 0;
       object-fit: contain;
       z-index: -1;
