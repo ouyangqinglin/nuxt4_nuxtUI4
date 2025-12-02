@@ -16,7 +16,7 @@
       </div>
     </section>
     <section>
-      <div class="product-two relative flex flex-col -mt-1 items-center">
+      <div class="product-two relative flex flex-col -mt-4 items-center">
         <img class="absolute top-0 left-0 product-two-bg" src="~/assets/images/product/2-bg.png" alt="">
         <img src="~/assets/images/product/2-data.png" alt="">
       </div>

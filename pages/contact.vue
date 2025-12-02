@@ -10,24 +10,30 @@
       unlocking sustainable growth for advertisers is the perfect<br />
  synergy of intelligent technology and human expertise.
     </h2>
-    <div class="form-container flex justify-center">
-      <UForm :state="state" :validate="validate" @submit="onSubmit" @error="onError">
-        <UFormField label="Name" name="name">
-          <UInput v-model.trim="state.name" />
+    <div class="form-container px-20 py-12 flex flex-col items-center justify-center">
+      <h2>Contact Form</h2>
+      <UForm class="mt-6" :state="state" :validate="validate" @submit="onSubmit" @error="onError" style="width: 680px">
+        <UFormField label="" name="name" size="xl" style="width: 680px">
+          <UInput style="width: 680px" v-model.trim="state.name" placeholder="Name" />
         </UFormField>
-        <UFormField label="Company" name="company">
-          <UInput v-model.trim="state.company" />
+        <UFormField class="mt-6" label="" name="company" size="xl">
+          <UInput style="width: 680px" v-model.trim="state.company" placeholder="Company" />
         </UFormField>
-        <UFormField label="Email" name="email">
-          <UInput v-model.trim="state.email" />
+        <UFormField class="mt-6" label="" name="email" size="xl">
+          <UInput style="width: 680px" v-model.trim="state.email" placeholder="Email" />
       </UFormField>
-        <UFormField label="Business Needs" name="businessNeeds">
-          <UTextarea v-model.trim="state.businessNeeds" />
+        <UFormField class="mt-6" label="" name="businessNeeds" size="xl">
+          <UTextarea style="width: 680px" v-model.trim="state.businessNeeds"
+                     placeholder="Business Needs: Product ID / Industry / Target Countries / How can we help (Market insights, Keyword expansion, Campaign strategy)"
+          />
         </UFormField>
-        <UButton type="submit">
-          Submit
-        </UButton>
+        <div class="flex justify-center">
+          <UButton type="submit" class="mt-6 px-10 py-2" style="background: linear-gradient(to right, #1A8DFA, #4B36FF)">
+            Submit
+          </UButton>
+        </div>
       </UForm>
+      <h3 class="mt-6">Contact Email:globalbusiness@hljyer.com</h3>
     </div>
  </div>
 </template>
@@ -54,8 +60,8 @@ function validate(state: Partial<Schema>): FormError[] {
 
 const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({ title: 'Success',description:'Theform has been submitted.', color: 'success'})
-console.log(event.data)
+  toast.add({ title: 'Success',description:'The form has been submitted.', color: 'success'})
+  console.log(event.data)
 }
 
 async function onError(event: FormErrorEvent) {
@@ -85,7 +91,10 @@ async function onError(event: FormErrorEvent) {
     font-size: 24px;
   }
   .form-container {
-    border: 1px solid red;
+    margin: 60px auto;
+    background-color: rgba(237,244,248, .9);
+    border-radius: 16px;
+    box-shadow: 4px 4px 6px rgba(206,217,226, 0.7), -4px -4px 6px rgba(206,217,226, 0.7);
   }
 
 }

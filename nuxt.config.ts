@@ -10,6 +10,14 @@ export default defineNuxtConfig({
     ui: {
         fonts: false,
         colorMode: false
+    },
+    app: {
+      head: {
+          title: 'ASAP',
+          htmlAttrs: {
+              lang: 'en',
+          },
+      }
     }
 })
 
