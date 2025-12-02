@@ -41,6 +41,8 @@
 <script setup lang="ts">
 import { md5 } from "js-md5";
 import type {FormError, FormErrorEvent, FormSubmitEvent } from '@nuxt/ui'
+const config = useRuntimeConfig()
+console.log('config', config)
 const state = reactive({
   name: undefined,
   company: undefined,
