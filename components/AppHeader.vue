@@ -28,7 +28,6 @@
 
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
-const route = useRoute()
 import { en } from '@nuxt/ui/locale'
 
 const locale = ref('en')
