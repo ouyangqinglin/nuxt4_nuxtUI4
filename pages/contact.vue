@@ -96,7 +96,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   console.log('data', data)
   if(+data.code === 200) {
     toast.add({ title: 'Success',description:'The form has been submitted.', color: 'success'})
-    Object.entries(state).keys().forEach(key => {
+    Object.keys(state).forEach(key => {
       state[key] = undefined
     })
 
@@ -104,13 +104,41 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   else toast.add({ title: 'Error',description: data.message, color: 'error'})
 }
 
-async function onError(event: FormErrorEvent) {
-  if (event?.errors?.[0]?.id) {
-    const element = document.getElementById(event.errors[0].id)
-    element?.focus()
-    element?.scrollIntoView({ behavior: 'smooth', block: 'center'})
- }
+async function onError(event: FormErrorEvent | undefined) {
+  if(process.client) {
+    try {
+      if (!event || !Array.isArray(event.errors) || event.errors.length === 0) {
+        return
+      }
+
+      const first = event.errors[0]
+      if (!first) return
+
+      // 优先用 id，再尝试用 name 查找（防止 id 不存在）
+      const id = typeof first.id === 'string' && first.id.trim() ? first.id.trim() : undefined
+      const name = typeof first.name === 'string' && first.name.trim() ? first.name.trim() : undefined
+
+      let element: HTMLElement | null = null
+      if (id) element = document.getElementById(id)
+      if (!element && name) element = document.querySelector<HTMLElement>(`[name="${CSS.escape ? CSS.escape(name) : name}"]`)
+
+      if (element) {
+        // focus 可能抛错（例如元素不可聚焦），因此单独捕获
+        try {
+          element?.focus?.()
+          element?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } catch (err) {
+          console.warn('focus/scrollIntoView failed', err, { id, name })
+        }
+      } else {
+        console.warn('onError: target element not found', { id, name, event })
+      }
+    } catch (err) {
+      console.error('onError handler crashed', err, event)
+    }
+  }
 }
+
 </script>
 
 <style lang="scss">
