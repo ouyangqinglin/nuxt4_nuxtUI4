@@ -63,17 +63,17 @@ function validate(state: Partial<Schema>): FormError[] {
 
 const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  // const url = '/api/v1/common/contact-form'
-  // const data = await $fetch(url, {
-  //   method: 'POST',
-  //   body: {
-  //     data: event.data,
-  //     timestamp: +(new Date().getTime() / 1000).toFixed(0),
-  //     nonce: "5bf61e5d142cb77a79c37634e0494306",
-  //     sign: md5(JSON.stringify(event.data) + (new Date().getTime() / 1000).toFixed(0) + '5bf61e5d142cb77a79c37634e0494306' + 'v0Wxg11Jl6hH2qxLf8') // 这个sign是用md5加密的，加密规则 md5(JSON.stringify(data) + timestamp + nonce + 'v0Wxg11Jl6hH2qxLf8')
-  //   }
-  // })
-  const { data } = await useFetch('/api/contact')
+  const url = '/api/v1/common/contact-form'
+  const data = await $fetch(url, {
+    baseURL: config.public.apiBase,
+    method: 'POST',
+    body: {
+      data: event.data,
+      timestamp: +(new Date().getTime() / 1000).toFixed(0),
+      nonce: "5bf61e5d142cb77a79c37634e0494306",
+      sign: md5(JSON.stringify(event.data) + (new Date().getTime() / 1000).toFixed(0) + '5bf61e5d142cb77a79c37634e0494306' + 'v0Wxg11Jl6hH2qxLf8') // 这个sign是用md5加密的，加密规则 md5(JSON.stringify(data) + timestamp + nonce + 'v0Wxg11Jl6hH2qxLf8')
+    }
+  })
   console.log('data', data)
   if(+data.code === 200) {
     toast.add({ title: 'Success',description:'The form has been submitted.', color: 'success'})

@@ -46,20 +46,58 @@
           </button>
 
           <div class="home4-stage" >
-            <div class="home4-track">
+            <div class="home4-track track1 relative">
               <div
                   class="home4-item"
                   v-for="(icon, i) in home4Icons"
                   :key="i"
-                  @click="clickHomeItem(i)"
                   :class="{ active: i === home4Index }"
               >
                 <img :src="icon" alt="client icon" style="flex-shrink: 0">
               </div>
+
+              <div class="home4-label">Lifestyle</div>
             </div>
 
-            <div class="home4-label">Lifestyle</div>
+            <div class="home4-track track2 relative">
+              <div
+                  class="home4-item"
+                  v-for="(icon, i) in home4Icons2"
+                  :key="i"
+                  :class="{ active: i === home4Index }"
+              >
+                <img :src="icon" alt="client icon" style="flex-shrink: 0">
+              </div>
+              <div class="home4-label">Social Networking</div>
+
+            </div>
+            <div class="home4-track track3 relative">
+              <div
+                  class="home4-item"
+                  v-for="(icon, i) in home4Icons3"
+                  :key="i"
+                  :class="{ active: i === home4Index }"
+              >
+                <img :src="icon" alt="client icon" style="flex-shrink: 0">
+              </div>
+              <div class="home4-label">Productivity & utilities</div>
+            </div>
+
+            <div class="home4-track track4 relative">
+              <div
+                  class="home4-item"
+                  v-for="(icon, i) in home4Icons4"
+                  :key="i"
+                  :class="{ active: i === home4Index }"
+              >
+                <img :src="icon" alt="client icon" style="flex-shrink: 0">
+              </div>
+              <div class="home4-label">others</div>
+            </div>
+
           </div>
+
+
 
           <button class="home4-arrow relative right" type="button" @click="nextHomeItem">
             <img src="~/assets/images/home/home4-right-btn.png" class="home4-btn" alt="next">
@@ -92,7 +130,12 @@
                 :class="['home5-dot', { active: idx === home5Index }]"
                 @click="goHome5(idx)"
                 :aria-label="`Go to slide ${idx + 1}`"
-            ></button>
+            >
+              <span
+                  v-if="idx === home5Index"
+                  class="dot-fill"
+              ></span>
+            </button>
           </div>
         </div>
       </div>
@@ -177,8 +220,11 @@ const homeThreeList = ref([
 
 const home4AllIcons = ref([home4Icon1, home4Icon2, home4Icon3, home4Icon4, home4Icon5, home4Icon6, home4Icon7, home4Icon8, home4Icon9, home4Icon10, home4Icon11, home4Icon12])
 const home4Icons = ref([home4Icon1, home4Icon2, home4Icon3])
+const home4Icons2 = ref([home4Icon4, home4Icon5, home4Icon6])
+const home4Icons3 = ref([home4Icon7, home4Icon8, home4Icon9])
+const home4Icons4 = ref([home4Icon10, home4Icon11, home4Icon12])
 // 默认选中中间的 icon
-const home4Index = ref(Math.floor(home4Icons.value.length / 2))
+const home4Index = ref(1)
 
 function clickHomeItem(index: number) {
   if(home4Index.value === index) return
@@ -197,43 +243,33 @@ function clickHomeItem(index: number) {
     }
   home4Index.value = index
 }
-let iconIndex = 1
+
 let iconGroup = 1 // 最大为4 每个代表三组icon
 function prevHomeItem() {
 
-  const homeTrack = document.querySelector('.home4-track')
-  if(home4Index.value === 0) {
+  if(iconGroup > 0) {
+    iconGroup--
+    console.log('iconGroup', iconGroup)
 
-    if(iconGroup > 0) {
-      iconGroup--
-      if(iconGroup === 0) return iconGroup = 1
-      home4Icons.value = home4AllIcons.value.slice((iconGroup-1)*3, (iconGroup-1)*3 + 3)
-      home4Index.value = 1
-      homeTrack!!.style.transform = `translateX(0)`
-    }
-    return
+    const homeTrack = document.querySelector(`.home4-stage`)
+    homeTrack!!.scrollTo({
+      left: (iconGroup-1)*800,
+      behavior: 'smooth'
+    })
+
   }
-  home4Index.value--
-
-  if(home4Index.value === 1) homeTrack!!.style.transform = `translateX(0)`
-  else homeTrack!!.style.transform = `translateX(280px)`
-  homeTrack!!.style.transition = `transform 0.3s ease-in-out`
 }
 function nextHomeItem() {
-  const homeTrack = document.querySelector('.home4-track')
-  if(home4Index.value === 2) {
-    if(iconGroup < 4) {
-      home4Icons.value = home4AllIcons.value.slice(iconGroup*3, iconGroup*3 + 3)
-      home4Index.value = 1
-      homeTrack!!.style.transform = `translateX(0)`
-      iconGroup++
-    }
-    return
+  console.log('iconGroup', iconGroup)
+  if(iconGroup < 4) {
+    iconGroup++
+    const homeTrack = document.querySelector(`.home4-stage`)
+    homeTrack!!.scrollTo({
+      left: iconGroup*800,
+      behavior: 'smooth'
+    })
+
   }
-  home4Index.value++
-  if(home4Index.value === 2) homeTrack!!.style.transform = `translateX(-280px)`
-  else homeTrack!!.style.transform = `translateX(0)`
-  homeTrack!!.style.transition = `transform 0.3s ease-in-out`
 }
 
 
@@ -448,13 +484,13 @@ function goHome5(index: number) {
     height: 600px;
     display: flex;
     align-items: center;
-    justify-content: center;
     overflow: hidden; /* 隐藏溢出的内容 */
   }
 
   .home4-track {
-    overflow: hidden;
+    flex-shrink: 0;
     display: flex;
+    flex-grow: 1;
     padding: 0 12px;
     width: 800px;
     height: 360px;
@@ -473,7 +509,6 @@ function goHome5(index: number) {
     transition: transform 320ms ease, opacity 320ms ease;
     opacity: 0.8;
     transform: scale(0.8) translateY(-80px);
-    cursor: pointer;
   }
 
   /* active center icon look */
@@ -485,7 +520,7 @@ function goHome5(index: number) {
 
   .home4-label {
     position: absolute;
-    bottom: 0px;
+    bottom: -116px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 28px;
@@ -568,15 +603,37 @@ function goHome5(index: number) {
     cursor: pointer;
     padding: 0;
     box-shadow: none;
+    position: relative;
+    overflow: hidden;
   }
 
   /* 活跃的 pill 样式（类似你贴图的中间长条 + 渐变 + 阴影） */
   .home5-dot.active {
-    width: 60px;
-    height: 8px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #ffd84a 0%, #00e0ff 100%);
+    //width: 60px;
+    //height: 8px;
+    //border-radius: 999px;
+    //background: linear-gradient(90deg, #ffd84a 0%, #00e0ff 100%);
+    //box-shadow: 0 10px 28px rgba(0,160,255,0.18), 0 4px 10px rgba(0,0,0,0.25);
+
     box-shadow: 0 10px 28px rgba(0,160,255,0.18), 0 4px 10px rgba(0,0,0,0.25);
+    background: rgba(255,255,255);
+  }
+
+  .dot-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #ffd84a 0%, #00e0ff 100%);
+    border-radius: 999px;
+    animation: fillDot 7s linear forwards;
+  }
+
+  @keyframes fillDot {
+    to {
+      width: 60px;
+    }
   }
 
   /* 响应式 */
