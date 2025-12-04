@@ -253,7 +253,7 @@ function prevHomeItem() {
 
     const homeTrack = document.querySelector(`.home4-stage`)
     homeTrack!!.scrollTo({
-      left: (iconGroup-1)*800,
+      left: iconGroup*800,
       behavior: 'smooth'
     })
 
@@ -261,7 +261,7 @@ function prevHomeItem() {
 }
 function nextHomeItem() {
   console.log('iconGroup', iconGroup)
-  if(iconGroup < 4) {
+  if(iconGroup < 3) {
     iconGroup++
     const homeTrack = document.querySelector(`.home4-stage`)
     homeTrack!!.scrollTo({
