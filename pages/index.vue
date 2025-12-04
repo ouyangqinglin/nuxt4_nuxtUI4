@@ -97,7 +97,7 @@
             :visible="{ opacity: 1 }"
             :duration="600"
             class="absolute home4-bg" src="~/assets/images/home/home4-bg.png" alt="">
-        <img class="absolute home4-title mt-40" src="~/assets/images/home/home4-title.png" alt="">
+          <img class="absolute home4-title mt-40" src="~/assets/images/home/home4-title.png" alt="">
 
         <!-- Centered icon stage with left/right buttons -->
         <div class="home4-carousel">
