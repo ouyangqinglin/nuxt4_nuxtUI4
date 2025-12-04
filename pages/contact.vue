@@ -1,15 +1,28 @@
 <template>
   <div class="pages-contact relative flex flex-col pl-20">
-    <img class="absolute pages-contact-bg" src="~/assets/images/contact/bg.png" alt="">
-    <h1 class="mt-40">Growth,<br />
-      Driven by Technology.</h1>
-    <h3 class="mt-8">Henrijayer is a world-leading expert in mobile <br />
-      marketing technology.</h3>
-    <h3 class="mt-8">
-      We believe that in the complex ios ecosystem, the key to<br />
-      unlocking sustainable growth for advertisers is the perfect<br />
- synergy of intelligent technology and human expertise.
-    </h3>
+    <img
+        v-motion
+        :initial="{ opacity: 0 }"
+        :enter="{ opacity: 1 }"
+        :duration="600"
+        class="absolute pages-contact-bg" src="~/assets/images/contact/bg.png" alt="">
+    <MotionGroup preset="slideVisibleLeft" :duration="600">
+      <section>
+        <h1 class="mt-40">Growth,<br />
+          Driven by Technology.</h1>
+      </section>
+      <section>
+        <h3 class="mt-8">Henrijayer is a world-leading expert in mobile <br />
+          marketing technology.</h3>
+      </section>
+      <section>
+        <h3 class="mt-8">
+          We believe that in the complex ios ecosystem, the key to<br />
+          unlocking sustainable growth for advertisers is the perfect<br />
+          synergy of intelligent technology and human expertise.
+        </h3>
+      </section>
+    </MotionGroup>
     <div class="form-container px-20 py-12 flex flex-col items-center justify-center">
       <h2>Contact Form</h2>
       <UForm class="mt-6" :state="state" :validate="validate" @submit="onSubmit" @error="onError" style="width: 680px">

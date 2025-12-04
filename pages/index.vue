@@ -2,19 +2,49 @@
   <div class="pages-home">
     <section>
       <div class="home1 relative flex flex-col pl-15">
-        <img class="absolute home1-bg" src="~/assets/images/home/home1.png" alt="">
-        <h1 class="mt-30">Apple Ads</h1>
-        <h1>The Global App Growth Platform</h1>
-        <h1>for Apple Ads</h1>
-        <h3 class="mt-4">Our proprietary AsAP platform provides one-stop,<br />
-          high-performance, and intelligent campaign management.
-        </h3>
-        <span class="mt-4" style="color: #333">91 Countries & Regions I 3,000+Apps Served I $80M+Annual Ad Spend I Global Reach</span>
-        <img class="home1-bg-child1 mt-15" src="~/assets/images/home/home1-child1.png" alt="">
-        <h4 class="mt-8">Apple Ads Official Partner</h4>
+        <img
+            v-motion
+            :initial="{ opacity: 0 }"
+            :enter="{ opacity: 1 }"
+            :duration="600"
+            class="absolute home1-bg" src="~/assets/images/home/home1.png" alt="">
+        <MotionGroup preset="slideVisibleLeft" :duration="600">
+          <section>
+            <h1 class="mt-30">Apple Ads <br />
+              The Global App Growth Platform<br />
+              for Apple Ads
+            </h1>
+          </section>
+          <section>
+            <h3 class="mt-4">Our proprietary AsAP platform provides one-stop,<br />
+              high-performance, and intelligent campaign management.
+            </h3>
+          </section>
+          <section>
+            <span class="mt-4" style="color: #333">91 Countries & Regions I 3,000+Apps Served I $80M+Annual Ad Spend I Global Reach</span>
+          </section>
+          <section>
+            <img class="home1-bg-child1 mt-15" src="~/assets/images/home/home1-child1.png" alt="">
+          </section>
+          <section>
+            <h4 class="mt-8">Apple Ads Official Partner</h4>
+          </section>
+        </MotionGroup>
+
       </div>
     </section>
-    <h1 class="text-center py-10">Why Choose Us?</h1>
+    <h1 class="text-center py-10"
+        v-motion
+        :initial="{
+      opacity: 0,
+      y: 60
+    }"
+        :duration="600"
+        :visible="{
+          opacity: 1,
+          y: 0
+        }"
+    >Why Choose Us?</h1>
     <section>
       <div style="width: 100%">
         <UCarousel loop v-slot="{ item }" :items="chooseItem" :autoplay="{ delay: 7000 }" fade>
@@ -22,27 +52,89 @@
         </UCarousel>
       </div>
     </section>
-    <h1 class="text-center py-10">Dual Assurance of Effectiveness and Efficiency</h1>
+    <h1 class="text-center py-10"
+        v-motion
+        :initial="{
+      opacity: 0,
+      y: 60
+    }"
+        :duration="600"
+        :visible="{
+          opacity: 1,
+          y: 0
+        }"
+    >Dual Assurance of Effectiveness and Efficiency</h1>
     <section>
       <div class="grid gap-15 grid-cols-3 px-15">
         <div class="flex flex-col home3-item items-center pt-6 pb-10 px-10" v-for="(item, k) of homeThreeList" :key="k">
-          <img class="home3-img" :src="item.img" alt="">
+          <img class="home3-img" :src="item.img" alt=""
+                v-motion
+               :initial="{ opacity: 0 }"
+               :visible="{ opacity: 1 }"
+               :delay="k*200"
+               :duration="600"
+          >
           <h2 class="my-3">{{ item.title }}</h2>
-          <p class="home3-item-desc" v-html="item.desc" />
+          <p class="home3-item-desc"
+             v-motion
+             :initial="{ opacity: 0, x: -100 }"
+             :visible="{
+          opacity: 1,
+          y: 0,
+          x: 0
+        }"
+             :delay="k*100"
+             :duration="600"
+             v-html="item.desc" />
         </div>
       </div>
     </section>
     <section class="mt-16">
       <div class="home4 relative flex flex-col justify-center">
-        <img class="absolute home4-bg" src="~/assets/images/home/home4-bg.png" alt="">
+        <img
+            v-motion
+            :initial="{ opacity: 0 }"
+            :visible="{ opacity: 1 }"
+            :duration="600"
+            class="absolute home4-bg" src="~/assets/images/home/home4-bg.png" alt="">
         <img class="absolute home4-title mt-40" src="~/assets/images/home/home4-title.png" alt="">
 
         <!-- Centered icon stage with left/right buttons -->
         <div class="home4-carousel">
 
           <button class="home4-arrow relative left" type="button" @click="prevHomeItem">
-            <img src="~/assets/images/home/home4-left-btn.png" class="home4-btn" alt="prev">
-            <img src="~/assets/images/home/home4-left-arrow.png" class="absolute" alt="">
+            <img
+                v-motion
+                :initial="{
+    x: -20,
+    opacity: 0
+  }"
+                :duration="600"
+                :enter="{
+    x: 0,
+    opacity: 1,
+    transition: {
+      repeat: Infinity,
+      repeatType: 'mirror',
+    },
+  }"
+                src="~/assets/images/home/home4-left-btn.png" class="home4-btn" alt="prev">
+            <img
+                v-motion
+                :initial="{
+    x: -20,
+    opacity: 0
+  }"
+                :duration="600"
+                :enter="{
+    x: 0,
+    opacity: 1,
+    transition: {
+      repeat: Infinity,
+      repeatType: 'mirror',
+    },
+  }"
+                src="~/assets/images/home/home4-left-arrow.png" class="absolute" alt="">
           </button>
 
           <div class="home4-stage" >
@@ -100,8 +192,38 @@
 
 
           <button class="home4-arrow relative right" type="button" @click="nextHomeItem">
-            <img src="~/assets/images/home/home4-right-btn.png" class="home4-btn" alt="next">
-            <img src="~/assets/images/home/home4-right-arrow.png" class="absolute" alt="">
+            <img
+                v-motion
+                :initial="{
+    x: 20,
+    opacity: 0
+  }"
+                :duration="600"
+                :enter="{
+    x: 0,
+    opacity: 1,
+    transition: {
+      repeat: Infinity,
+      repeatType: 'mirror',
+    },
+  }"
+                src="~/assets/images/home/home4-right-btn.png"class="home4-btn" alt="next">
+            <img
+                v-motion
+                :initial="{
+    x: 20,
+    opacity: 0
+  }"
+                :duration="600"
+                :enter="{
+    x: 0,
+    opacity: 1,
+    transition: {
+      repeat: Infinity,
+      repeatType: 'mirror',
+    },
+  }"
+                src="~/assets/images/home/home4-right-arrow.png" class="absolute" alt="">
           </button>
 
         </div>
@@ -109,13 +231,34 @@
     </section>
     <section style="margin-top: -110px">
       <div class="home5 relative flex flex-col items-center">
-        <img class="home5-bg absolute" src="~/assets/images/home/home5-bg.png" alt=""></img>
-        <h1 class="mt-16">Success Stories</h1>
+        <img
+            v-motion
+            :initial="{ opacity: 0 }"
+            :visible="{ opacity: 1 }"
+            :duration="600"
+            class="home5-bg absolute" src="~/assets/images/home/home5-bg.png" alt=""></img>
+        <h1 class="mt-16"
+            v-motion
+            :initial="{
+      opacity: 0,
+      y: 60
+    }"
+            :duration="600"
+            :visible="{
+          opacity: 1,
+          y: 0
+        }"
+        >Success Stories</h1>
         <div class="relative">
           <UCarousel ref="home5Carousel" loop v-slot="{ item }" :items="home5SwiperList" @select="onHome5Select"
                      :autoplay="{ delay: 7000 }" fade>
             <div :key="item.id">
-              <img class="h5-bg" :src="item.bg" alt="">
+              <img
+                  v-motion
+                  :initial="{ opacity: 0 }"
+                  :visible="{ opacity: 1 }"
+                  :duration="600"
+                  class="h5-bg" :src="item.bg" alt="">
               <div class="absolute h5-img-box" :key="item.id">
                 <img :src="item.img" class="absolute h5-img" alt="">
               </div>
@@ -392,60 +535,8 @@ function goHome5(index: number) {
     justify-content: center;
     position: relative;
     transition: transform 0.3s ease;
-    
-    //img {
-    //  width: 64px;
-    //  height: 64px;
-    //  transition: transform 0.3s ease, opacity 0.3s ease;
-    //}
-    
-    // 右箭头悬停动画
-    &.right {
-      &:hover {
-        transform: translateX(5px);
-        
-        img.absolute {
-          transform: translateX(8px);
-        }
-      }
-      
-      &:active {
-        transform: translateX(2px) scale(0.95);
-        
-        img.absolute {
-          transform: translateX(12px) scale(1.1);
-        }
-      }
-      
-      // 箭头持续的小幅摆动动画
-      img.absolute {
-        animation: arrowPulse 2s ease-in-out infinite;
-      }
-    }
-    
-    // 左箭头悬停动画
-    &.left {
-      &:hover {
-        transform: translateX(-5px);
-        
-        img.absolute {
-          transform: translateX(-8px);
-        }
-      }
-      
-      &:active {
-        transform: translateX(-2px) scale(0.95);
-        
-        img.absolute {
-          transform: translateX(-12px) scale(1.1);
-        }
-      }
-      
-      // 箭头持续的小幅摆动动画
-      img.absolute {
-        animation: arrowPulse 2s ease-in-out infinite;
-      }
-    }
+
+
   }
   
   // 右箭头脉冲动画
