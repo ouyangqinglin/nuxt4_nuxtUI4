@@ -244,7 +244,7 @@ function clickHomeItem(index: number) {
   home4Index.value = index
 }
 
-let iconGroup = 1 // 最大为4 每个代表三组icon
+let iconGroup = 0 // 最大为4 每个代表三组icon
 function prevHomeItem() {
 
   if(iconGroup > 0) {
