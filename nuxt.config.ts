@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     modules: ['@nuxt/ui'],
     runtimeConfig: {
         public: {
-            apiBase: '',
+            apiBase: '/api',
         }
     },
   css: [
@@ -30,7 +30,7 @@ export default defineNuxtConfig({
                 '/api': {
                     target: 'https://test.asa.hljyer.com',
                     changeOrigin: true,
-                    secure: false
+                    secure: false,
                 }
             }
         }
