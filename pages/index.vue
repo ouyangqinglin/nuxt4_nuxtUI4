@@ -8,28 +8,41 @@
             :enter="{ opacity: 1 }"
             :duration="600"
             class="absolute home1-bg" src="~/assets/images/home/home1.png" alt="">
-        <MotionGroup preset="slideVisibleLeft" :duration="600">
-          <section>
-            <h1 class="mt-30">Apple Ads <br />
-              The Global App Growth Platform<br />
-              for Apple Ads
-            </h1>
-          </section>
-          <section>
-            <h3 class="mt-4">Our proprietary AsAP platform provides one-stop,<br />
-              high-performance, and intelligent campaign management.
-            </h3>
-          </section>
-          <section>
-            <span class="mt-4" style="color: #333">91 Countries & Regions I 3,000+Apps Served I $80M+Annual Ad Spend I Global Reach</span>
-          </section>
-          <section>
-            <img class="home1-bg-child1 mt-15" src="~/assets/images/home/home1-child1.png" alt="">
-          </section>
-          <section>
-            <h4 class="mt-8">Apple Ads Official Partner</h4>
-          </section>
-        </MotionGroup>
+        <h1 class="mt-30"
+            v-motion
+            :initial="{ opacity: 0, x: -100}"
+            :enter="{ opacity: 1, x: 0}"
+            :duration="600"
+        >Apple Ads <br />
+          The Global App Growth Platform<br />
+          for Apple Ads
+        </h1>
+        <h3
+            v-motion
+            :initial="{ opacity: 0, x: -100}"
+            :enter="{ opacity: 1, x: 0}"
+            :duration="600"
+            class="mt-4">Our proprietary AsAP platform provides one-stop,<br />
+          high-performance, and intelligent campaign management.
+        </h3>
+        <span
+            v-motion
+            :initial="{ opacity: 0, x: -100}"
+            :enter="{ opacity: 1, x: 0}"
+            :duration="600"
+            class="mt-4" style="color: #333">91 Countries & Regions I 3,000+Apps Served I $80M+Annual Ad Spend I Global Reach</span>
+        <img
+            v-motion
+            :initial="{ opacity: 0, x: -100}"
+            :enter="{ opacity: 1, x: 0}"
+            :duration="600"
+            class="home1-bg-child1 mt-15" src="~/assets/images/home/home1-child1.png" alt="">
+        <h4
+            v-motion
+            :initial="{ opacity: 0, x: -100}"
+            :enter="{ opacity: 1, x: 0}"
+            :duration="600"
+            class="mt-8">Apple Ads Official Partner</h4>
 
       </div>
     </section>
